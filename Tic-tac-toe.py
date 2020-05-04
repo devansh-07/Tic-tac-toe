@@ -16,7 +16,6 @@ Tic Tac Toe
 
 import tkinter as tk
 import random
-import time, threading
 
 
 root = tk.Tk()
@@ -35,14 +34,14 @@ winner = None
 def comp_rand_move():
     global choices
     while True:
-        fr_list = [f1, f2, f3, f4, f5, f6, f7, f8, f9]
-        rf = random.choice(fr_list)
+        btnFrames = [btnFrame1, btnFrame2, btnFrame3, btnFrame4, btnFrame5, btnFrame6, btnFrame7, btnFrame8, btnFrame9]
+        rf = random.choice(btnFrames)
 
-        if choices[fr_list.index(rf)] is None:
+        if choices[btnFrames.index(rf)] is None:
             for wid in rf.winfo_children():
                 wid.destroy()
             break
-    ch = fr_list.index(rf)+1
+    ch = btnFrames.index(rf)+1
     put_label("X", rf, ch=ch)
 
     choices[ch - 1] = "X"
@@ -57,11 +56,11 @@ def reset_layout(*args):
     choices = [None for _ in range(9)]  # Setting the values of choices to None
     win = False
 
-    outer_frms = [f1, f2, f3, f4, f5, f6, f7, f8, f9]
+    bntFrames = [btnFrame1, btnFrame2, btnFrame3, btnFrame4, btnFrame5, btnFrame6, btnFrame7, btnFrame8, btnFrame9]
 
-    fr_list = [[widget for widget in frm.winfo_children()] for frm in outer_frms]
+    btnFrames0 = [[widget for widget in frm.winfo_children()] for frm in bntFrames]
 
-    for f in fr_list:
+    for f in btnFrames0:
         for wd in f:
             wd.destroy()
 
@@ -77,13 +76,13 @@ def display_win(winner):
     x = root.winfo_x()
     y = root.winfo_y()
 
-    m_root = tk.Tk()
-    m_root.geometry(f"180x70+{x+60}+{y+170}")
-    m_root.resizable(0, 0)
-    m_root.overrideredirect(True)
-    m_root.configure(bg="black")
+    resultWin = tk.Tk()
+    resultWin.geometry(f"180x70+{x+60}+{y+170}")
+    resultWin.resizable(0, 0)
+    resultWin.overrideredirect(True)
+    resultWin.configure(bg="black")
 
-    f = tk.Frame(m_root, bg="cyan")
+    f = tk.Frame(resultWin, bg="cyan")
     f.pack(padx=5, pady=5)
     font = ("calibri", 25)
 
@@ -98,8 +97,8 @@ def display_win(winner):
         else:
             txt = "You Won!" if winner == "O" else "You Lose!"
             tk.Label(f, text=txt, font=font, padx=40, pady=10, fg="green", bg="#222222").pack()
-    m_root.after(1500, m_root.destroy)
-    m_root.mainloop(1)
+    resultWin.after(1500, resultWin.destroy)
+    resultWin.mainloop(1)
 
 
 # To store the values in a list
@@ -160,6 +159,7 @@ def put_label(n, frame, btn1=None, btn2=None, ch=0, plyr='human'):
 
     lbl = tk.Label(frame, text=n, font=font, fg=fg, bg="#2d2d2d", padx=padx, pady=10)
     lbl.pack()
+
     if ch in [2, 4, 6, 8]:
         lbl.configure(bg="#03556c")
     apply_changes(ch, n)
@@ -170,163 +170,163 @@ def put_label(n, frame, btn1=None, btn2=None, ch=0, plyr='human'):
 
 # First frame for buttons
 
-fr_btns1 = tk.Frame(root, padx=6, pady=10, bg="#420c09")
-fr_btns1.grid(row=0, pady=0)
+topFrame = tk.Frame(root, padx=6, pady=10, bg="#420c09")
+topFrame.grid(row=0, pady=0)
 
-tk.Label(fr_btns1, text="Play against : ", fg="white", bg="#420c09").pack(padx=(34, 0), side="left")
+tk.Label(topFrame, text="Play against : ", fg="white", bg="#420c09").pack(padx=(34, 0), side="left")
 
 options = ["A Friend", "Computer"]
 var = tk.StringVar(root)
 var.set(options[1])
 var.trace('w', reset_layout)
 
-op_menu = tk.OptionMenu(fr_btns1, var, *options)
-op_menu.configure(width=10, pady=3, borderwidth=1)
-op_menu.pack(padx=(0, 34), side="left")
+optionMenu = tk.OptionMenu(topFrame, var, *options)
+optionMenu.configure(width=10, pady=3, borderwidth=1)
+optionMenu.pack(padx=(0, 34), side="left")
 
 
 # Outer frame for buttons
 
-f_r = tk.Frame(root, padx=5, pady=0, bg="#111111")
-f_r.grid(row=1, pady=5)
+outerFrame = tk.Frame(root, padx=5, pady=0, bg="#111111")
+outerFrame.grid(row=1, pady=5)
 
 
 # Three inner frames
 
-f_r0 = tk.Frame(f_r, padx=0, pady=0, bg="#2d2d2d")
-f_r0.grid(row=1)
+innerFrame0 = tk.Frame(outerFrame, padx=0, pady=0, bg="#2d2d2d")
+innerFrame0.grid(row=1)
 
-f_r1 = tk.Frame(f_r, padx=0, pady=0, bg="#03556c")
-f_r1.grid(row=2)
+innerFrame1 = tk.Frame(outerFrame, padx=0, pady=0, bg="#03556c")
+innerFrame1.grid(row=2)
 
-f_r2 = tk.Frame(f_r, padx=0, pady=0, bg="#2d2d2d")
-f_r2.grid(row=3)
+innerFrame2 = tk.Frame(outerFrame, padx=0, pady=0, bg="#2d2d2d")
+innerFrame2.grid(row=3)
 
 
 # Three innermost frames on each inner frame
 
-f1 = tk.Frame(f_r0, padx=25, pady=15, bg="#2d2d2d")
-f1.grid(column=0, row=0)
+btnFrame1 = tk.Frame(innerFrame0, padx=25, pady=15, bg="#2d2d2d")
+btnFrame1.grid(column=0, row=0)
 
-f2 = tk.Frame(f_r0, padx=25, pady=15, bg="#03556c")
-f2.grid(column=1, row=0)
+btnFrame2 = tk.Frame(innerFrame0, padx=25, pady=15, bg="#03556c")
+btnFrame2.grid(column=1, row=0)
 
-f3 = tk.Frame(f_r0, padx=25, pady=15, bg="#2d2d2d")
-f3.grid(column=2, row=0)
+btnFrame3 = tk.Frame(innerFrame0, padx=25, pady=15, bg="#2d2d2d")
+btnFrame3.grid(column=2, row=0)
 
-f4 = tk.Frame(f_r1, padx=25, pady=15, bg="#03556c")
-f4.grid(column=0, row=1)
+btnFrame4 = tk.Frame(innerFrame1, padx=25, pady=15, bg="#03556c")
+btnFrame4.grid(column=0, row=1)
 
-f5 = tk.Frame(f_r1, padx=25, pady=15, bg="#2d2d2d")
-f5.grid(column=1, row=1)
+btnFrame5 = tk.Frame(innerFrame1, padx=25, pady=15, bg="#2d2d2d")
+btnFrame5.grid(column=1, row=1)
 
-f6 = tk.Frame(f_r1, padx=25, pady=15, bg="#03556c")
-f6.grid(column=2, row=1)
+btnFrame6 = tk.Frame(innerFrame1, padx=25, pady=15, bg="#03556c")
+btnFrame6.grid(column=2, row=1)
 
-f7 = tk.Frame(f_r2, padx=25, pady=15, bg="#2d2d2d")
-f7.grid(column=0, row=2)
+btnFrame7 = tk.Frame(innerFrame2, padx=25, pady=15, bg="#2d2d2d")
+btnFrame7.grid(column=0, row=2)
 
-f8 = tk.Frame(f_r2, padx=25, pady=15, bg="#03556c")
-f8.grid(column=1, row=2)
+btnFrame8 = tk.Frame(innerFrame2, padx=25, pady=15, bg="#03556c")
+btnFrame8.grid(column=1, row=2)
 
-f9 = tk.Frame(f_r2, padx=25, pady=15, bg="#2d2d2d")
-f9.grid(column=2, row=2)
+btnFrame9 = tk.Frame(innerFrame2, padx=25, pady=15, bg="#2d2d2d")
+btnFrame9.grid(column=2, row=2)
 
 
 # Second frame for buttons
 
-fr_btns2 = tk.Frame(root, padx=10, pady=10, bg="#420c09")
-fr_btns2.grid(row=4, pady=0)
+bottomFrame = tk.Frame(root, padx=10, pady=10, bg="#420c09")
+bottomFrame.grid(row=4, pady=0)
 
-reset_btn = tk.Button(fr_btns2, text="Restart", pady=3, padx=15, command=reset_layout)
-reset_btn.pack(side="left", pady=0, padx=(25, 43))
+btnReset = tk.Button(bottomFrame, text="Restart", pady=3, padx=15, command=reset_layout)
+btnReset.pack(side="left", pady=0, padx=(25, 43))
 
-quit_btn = tk.Button(fr_btns2, text="Quit", pady=3, padx=15, command=root.destroy)
-quit_btn.pack(side="right", pady=0, padx=(43, 25))
+btnQuit = tk.Button(bottomFrame, text="Quit", pady=3, padx=15, command=root.destroy)
+btnQuit.pack(side="right", pady=0, padx=(43, 25))
 
 
 # To create a layout for playing against friend
 
 def create_lyt_against_frnd():
-    global f1, f2, f3, f4, f5, f6, f7, f8, f9
+    global btnFrame1, btnFrame2, btnFrame3, btnFrame4, btnFrame5, btnFrame6, btnFrame7, btnFrame8, btnFrame9
 
-    b1o = tk.Button(f1, text="O", padx=5, command=lambda: put_label("O", f1, b1o, b1x, 1))
-    b1o.pack(side="right", pady=20)
-    b1x = tk.Button(f1, text="X", padx=5, command=lambda: put_label("X", f1, b1o, b1x, 1))
-    b1x.pack(pady=20)
+    btn1o = tk.Button(btnFrame1, text="O", padx=5, command=lambda: put_label("O", btnFrame1, btn1o, btn1x, 1))
+    btn1o.pack(side="right", pady=20)
+    btn1x = tk.Button(btnFrame1, text="X", padx=5, command=lambda: put_label("X", btnFrame1, btn1o, btn1x, 1))
+    btn1x.pack(pady=20)
 
-    b2o = tk.Button(f2, text="O", padx=5, command=lambda: put_label("O", f2, b2o, b2x, 2))
-    b2o.pack(side="right", pady=20)
-    b2x = tk.Button(f2, text="X", padx=5, command=lambda: put_label("X", f2, b2o, b2x, 2))
-    b2x.pack(pady=20)
+    btn2o = tk.Button(btnFrame2, text="O", padx=5, command=lambda: put_label("O", btnFrame2, btn2o, btn2x, 2))
+    btn2o.pack(side="right", pady=20)
+    btn2x = tk.Button(btnFrame2, text="X", padx=5, command=lambda: put_label("X", btnFrame2, btn2o, btn2x, 2))
+    btn2x.pack(pady=20)
 
-    b3o = tk.Button(f3, text="O", padx=5, command=lambda: put_label("O", f3, b3o, b3x, 3))
-    b3o.pack(side="right", pady=20)
-    b3x = tk.Button(f3, text="X", padx=5, command=lambda: put_label("X", f3, b3o, b3x, 3))
-    b3x.pack(pady=20)
+    btn3o = tk.Button(btnFrame3, text="O", padx=5, command=lambda: put_label("O", btnFrame3, btn3o, btn3x, 3))
+    btn3o.pack(side="right", pady=20)
+    btn3x = tk.Button(btnFrame3, text="X", padx=5, command=lambda: put_label("X", btnFrame3, btn3o, btn3x, 3))
+    btn3x.pack(pady=20)
 
-    b4o = tk.Button(f4, text="O", padx=5, command=lambda: put_label("O", f4, b4o, b4x, 4))
-    b4o.pack(side="right", pady=20)
-    b4x = tk.Button(f4, text="X", padx=5, command=lambda: put_label("X", f4, b4o, b4x, 4))
-    b4x.pack(pady=20)
+    btn4o = tk.Button(btnFrame4, text="O", padx=5, command=lambda: put_label("O", btnFrame4, btn4o, btn4x, 4))
+    btn4o.pack(side="right", pady=20)
+    btn4x = tk.Button(btnFrame4, text="X", padx=5, command=lambda: put_label("X", btnFrame4, btn4o, btn4x, 4))
+    btn4x.pack(pady=20)
 
-    b5o = tk.Button(f5, text="O", padx=5, command=lambda: put_label("O", f5, b5o, b5x, 5))
-    b5o.pack(side="right", pady=20)
-    b5x = tk.Button(f5, text="X", padx=5, command=lambda: put_label("X", f5, b5o, b5x, 5))
-    b5x.pack(pady=20)
+    btn5o = tk.Button(btnFrame5, text="O", padx=5, command=lambda: put_label("O", btnFrame5, btn5o, btn5x, 5))
+    btn5o.pack(side="right", pady=20)
+    btn5x = tk.Button(btnFrame5, text="X", padx=5, command=lambda: put_label("X", btnFrame5, btn5o, btn5x, 5))
+    btn5x.pack(pady=20)
 
-    b6o = tk.Button(f6, text="O", padx=5, command=lambda: put_label("O", f6, b6o, b6x, 6))
-    b6o.pack(side="right", pady=20)
-    b6x = tk.Button(f6, text="X", padx=5, command=lambda: put_label("X", f6, b6o, b6x, 6))
-    b6x.pack(pady=20)
+    btn6o = tk.Button(btnFrame6, text="O", padx=5, command=lambda: put_label("O", btnFrame6, btn6o, btn6x, 6))
+    btn6o.pack(side="right", pady=20)
+    btn6x = tk.Button(btnFrame6, text="X", padx=5, command=lambda: put_label("X", btnFrame6, btn6o, btn6x, 6))
+    btn6x.pack(pady=20)
 
-    b7o = tk.Button(f7, text="O", padx=5, command=lambda: put_label("O", f7, b7o, b7x, 7))
-    b7o.pack(side="right", pady=20)
-    b7x = tk.Button(f7, text="X", padx=5, command=lambda: put_label("X", f7, b7o, b7x, 7))
-    b7x.pack(pady=20)
+    btn7o = tk.Button(btnFrame7, text="O", padx=5, command=lambda: put_label("O", btnFrame7, btn7o, btn7x, 7))
+    btn7o.pack(side="right", pady=20)
+    btn7x = tk.Button(btnFrame7, text="X", padx=5, command=lambda: put_label("X", btnFrame7, btn7o, btn7x, 7))
+    btn7x.pack(pady=20)
 
-    b8o = tk.Button(f8, text="O", padx=5, command=lambda: put_label("O", f8, b8o, b8x, 8))
-    b8o.pack(side="right", pady=20)
-    b8x = tk.Button(f8, text="X", padx=5, command=lambda: put_label("X", f8, b8o, b8x, 8))
-    b8x.pack(pady=20)
+    btn8o = tk.Button(btnFrame8, text="O", padx=5, command=lambda: put_label("O", btnFrame8, btn8o, btn8x, 8))
+    btn8o.pack(side="right", pady=20)
+    btn8x = tk.Button(btnFrame8, text="X", padx=5, command=lambda: put_label("X", btnFrame8, btn8o, btn8x, 8))
+    btn8x.pack(pady=20)
 
-    b9o = tk.Button(f9, text="O", padx=5, command=lambda: put_label("O", f9, b9o, b9x, 9))
-    b9o.pack(side="right", pady=20)
-    b9x = tk.Button(f9, text="X", padx=5, command=lambda: put_label("X", f9, b9o, b9x, 9))
-    b9x.pack(pady=20)
+    btn9o = tk.Button(btnFrame9, text="O", padx=5, command=lambda: put_label("O", btnFrame9, btn9o, btn9x, 9))
+    btn9o.pack(side="right", pady=20)
+    btn9x = tk.Button(btnFrame9, text="X", padx=5, command=lambda: put_label("X", btnFrame9, btn9o, btn9x, 9))
+    btn9x.pack(pady=20)
 
 
 # To create a layout for playing against computer
 
 def create_lyt_against_comp():
-    global f1, f2, f3, f4, f5, f6, f7, f8, f9
+    global btnFrame1, btnFrame2, btnFrame3, btnFrame4, btnFrame5, btnFrame6, btnFrame7, btnFrame8, btnFrame9
 
-    b1o = tk.Button(f1, text="O", padx=5, command=lambda: put_label("O", f1, b1o, ch=1, plyr='comp'))
-    b1o.pack(side="right", padx=12, pady=20)
+    btn1o = tk.Button(btnFrame1, text="O", padx=5, command=lambda: put_label("O", btnFrame1, btn1o, ch=1, plyr='comp'))
+    btn1o.pack(side="right", padx=12, pady=20)
 
-    b2o = tk.Button(f2, text="O", padx=5, command=lambda: put_label("O", f2, b2o, ch=2, plyr='comp'))
-    b2o.pack(side="right", padx=12, pady=20)
+    btn2o = tk.Button(btnFrame2, text="O", padx=5, command=lambda: put_label("O", btnFrame2, btn2o, ch=2, plyr='comp'))
+    btn2o.pack(side="right", padx=12, pady=20)
 
-    b3o = tk.Button(f3, text="O", padx=5, command=lambda: put_label("O", f3, b3o, ch=3, plyr='comp'))
-    b3o.pack(side="right", padx=12, pady=20)
+    btn3o = tk.Button(btnFrame3, text="O", padx=5, command=lambda: put_label("O", btnFrame3, btn3o, ch=3, plyr='comp'))
+    btn3o.pack(side="right", padx=12, pady=20)
 
-    b4o = tk.Button(f4, text="O", padx=5, command=lambda: put_label("O", f4, b4o, ch=4, plyr='comp'))
-    b4o.pack(side="right", padx=12, pady=20)
+    btn4o = tk.Button(btnFrame4, text="O", padx=5, command=lambda: put_label("O", btnFrame4, btn4o, ch=4, plyr='comp'))
+    btn4o.pack(side="right", padx=12, pady=20)
 
-    b5o = tk.Button(f5, text="O", padx=5, command=lambda: put_label("O", f5, b5o, ch=5, plyr='comp'))
-    b5o.pack(side="right", padx=12, pady=20)
+    btn5o = tk.Button(btnFrame5, text="O", padx=5, command=lambda: put_label("O", btnFrame5, btn5o, ch=5, plyr='comp'))
+    btn5o.pack(side="right", padx=12, pady=20)
 
-    b6o = tk.Button(f6, text="O", padx=5, command=lambda: put_label("O", f6, b6o, ch=6, plyr='comp'))
-    b6o.pack(side="right", padx=12, pady=20)
+    btn6o = tk.Button(btnFrame6, text="O", padx=5, command=lambda: put_label("O", btnFrame6, btn6o, ch=6, plyr='comp'))
+    btn6o.pack(side="right", padx=12, pady=20)
 
-    b7o = tk.Button(f7, text="O", padx=5, command=lambda: put_label("O", f7, b7o, ch=7, plyr='comp'))
-    b7o.pack(side="right", padx=12, pady=20)
+    btn7o = tk.Button(btnFrame7, text="O", padx=5, command=lambda: put_label("O", btnFrame7, btn7o, ch=7, plyr='comp'))
+    btn7o.pack(side="right", padx=12, pady=20)
 
-    b8o = tk.Button(f8, text="O", padx=5, command=lambda: put_label("O", f8, b8o, ch=8, plyr='comp'))
-    b8o.pack(side="right", padx=12, pady=20)
+    btn8o = tk.Button(btnFrame8, text="O", padx=5, command=lambda: put_label("O", btnFrame8, btn8o, ch=8, plyr='comp'))
+    btn8o.pack(side="right", padx=12, pady=20)
 
-    b9o = tk.Button(f9, text="O", padx=5, command=lambda: put_label("O", f9, b9o, ch=9, plyr='comp'))
-    b9o.pack(side="right", padx=12, pady=20)
+    btn9o = tk.Button(btnFrame9, text="O", padx=5, command=lambda: put_label("O", btnFrame9, btn9o, ch=9, plyr='comp'))
+    btn9o.pack(side="right", padx=12, pady=20)
 
 
 create_lyt_against_comp()
